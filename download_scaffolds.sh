@@ -16,6 +16,12 @@ done
 # 2. Locally: scp.
 HOST_LAB_DIR="abl19@o2.hms.harvard.edu:/n/groups/springer"
 scp -r "$HOST_LAB_DIR/andrew/ragtag_scaffolds" .
+# Add sample names to fasta sequence ids. Note that this edits the genome
+# files in ragtag_scaffolds directly and is not idempotent (it should only be
+# run once after a clean download of the genomes). There might also be a
+# sed/awk 1-liner that achieves the same goal as the python script, but I
+# wrote the python script for more readability.
+python3 add_samples_to_seq_ids.py
 
 # 3. Repeat both steps for annotations.
 scp $HOST_LAB_DIR/cornucopia/xa45-wgs-results/annotated-nuc/*.ffn .

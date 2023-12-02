@@ -1,0 +1,4 @@
+# Biopython (SeqIO and Bio)
+# primer3-py (primer3) and primer3-core
+# --edit: maybe not anymore: BLAST+ (just downloaded)
+# for filtering: bowtie and samtools
