@@ -18,12 +18,19 @@ import shared_vars
 # a. improvement in data storage in future is probably to put annotations and
 # genomes in same folder. for now, just notice whether
 
-# list samples
-target_dir = "annotated_nucs" # as files are currently organized,
-# you can directly substitute in whole genomes for coding sequences.
-# sample_filename = f"{target_dir}/LIB060784_GEN00271243_1_S1.ffn"
-def gen_primers(sample_filename, max_num_primers=5):
+# example sample_filename: f"{target_dir}/LIB060784_GEN00271243_1_S1.ffn"
+def gen_primers(sample_filename, max_num_primers=5, contig_max_length=500):
     seqs = SeqIO.parse(sample_filename, "fasta")
+    if contig_max_length is not None:
+        # iterate through contigs until we hit one shorter
+        # than contig_max_length bp
+        seq = next(seqs)
+        while len(seq.seq) > contig_max_length:
+            try:
+                seq = next(seqs)
+            except StopIteration:
+                seqs = [seq]
+                break
     primers = []
     for seq in seqs:
         # Run primer3; use default PRIMER_PRODUCT_SIZE_RANGE but shorten if
@@ -63,15 +70,17 @@ def primers2records(primers, sample):
 # parameter (or set by a parameter like "build_one_index") shared between
 # gen_primers and
 # filter_primers.
-one_file = False
-for target_file in os.listdir(target_dir):
+one_file = True
+for target_file in os.listdir(shared_vars.TARGET_DIR):
     sample = target_file.split(".")[0] # Sample name is filename pre-extension.
-    sample_filename = os.path.join(target_dir, target_file)
+    sample_filename = os.path.join(shared_vars.TARGET_DIR, target_file)
     print(sample_filename)
     primers = gen_primers(sample_filename)
     # Convert primers to SeqRecord objects (may not need to reverse
     # complement for now) and write to file.
     primer_records = primers2records(primers, sample)
-    out_filename = (f"primers{'' if one_file else '_' + sample}.fasta")
-    with open(out_filename, "a" if one_file else "w") as primers_file:
+    out_file = os.path.join(shared_vars.PRIMERS_DIR,
+                            f"primers"
+                            f"{'' if one_file else '_' + sample}_wg.fasta")
+    with open(out_file, "a" if one_file else "w") as primers_file:
         SeqIO.write(primer_records, primers_file, "fasta")
