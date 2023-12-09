@@ -129,9 +129,6 @@ def main():
                              "genomes; genome names should be in the "
                              "'primer_genome' column.")
     args = parser.parse_args()
-    # If one_file=True, put all primers in one file; otherwise create one
-    # primer file per genome.
-    one_file = True
     target_files = os.listdir(args.input_dir)
     genome2file = {f.split(".")[0]: f for f in target_files}
     if args.ignore_file is not None:
@@ -148,11 +145,7 @@ def main():
         primers = gen_primers(genome_filename)
         # Convert primers to SeqRecord objects and write to file.
         primer_records = primers2records(primers, genome)
-        out_file = os.path.join(shared_vars.PRIMERS_DIR,
-                                f"primers"
-                                f"{'' if one_file else '_' + genome}.fasta")
-        with (open(args.output_file, "a" if one_file and i > 0 else "w") as
-              primers_file):
+        with open(args.output_file, "a" if i > 0 else "w") as primers_file:
             SeqIO.write(primer_records, primers_file, "fasta")
 
 

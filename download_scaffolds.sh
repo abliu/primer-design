@@ -25,14 +25,6 @@ done
 export HOST_LAB_DIR="abl19@o2.hms.harvard.edu:/n/groups/springer"
 scp -r "$HOST_LAB_DIR/andrew/ragtag_scaffolds" .
 
-# Add genome names to fasta sequence descriptions (e.g. change
-# ">NZ_BCZQ01000001.1_RagTag" to ">LIB060784_GEN00271243_1_S1:NZ_BCZQ01000001
-# .1_RagTag"). This edits the genome files in ragtag_scaffolds directly and is
-# not idempotent (it should only be run once after a clean download of the
-# genomes). (There might also be a sed/awk 1-liner that achieves the same goal
-# as the python script, but I wrote the python script for more readability.)
-python3 add_genomes_to_seq_descs.py
-
 # Scp the genome's coding sequences (prokka annotations) as well.
 scp $HOST_LAB_DIR/cornucopia/xa45-wgs-results/annotated-nuc/*.ffn .
 

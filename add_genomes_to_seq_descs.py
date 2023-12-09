@@ -9,18 +9,31 @@ which is a cross-amplification).
 """
 
 from Bio import SeqIO
+import argparse
 import os
 
 import shared_vars
 
-for genome_file in os.listdir(shared_vars.TARGET_DIR):
-    genome = genome_file.split(".")[0] # Genome name is filename pre-extension.
-    file_path = os.path.join(shared_vars.TARGET_DIR, genome_file)
-    # Listing out the iterator may not be efficient for larger files.
-    seq_records = list(SeqIO.parse(file_path, "fasta"))
-    for i, _ in enumerate(seq_records):
-        seq_records[i].id = (f"{genome}{shared_vars.GENOME_CONTIG_SEP}"
-                             f"{seq_records[i].id}")
-        seq_records[i].name = ""; seq_records[i].description = ""
-    with open(file_path, "w") as file:
-        SeqIO.write(seq_records, file, "fasta")
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('input_dir', metavar='input-dir',
+                        help="Directory with input FASTA genomes.")
+    args = parser.parse_args()
+    for genome_file in os.listdir(args.input_dir):
+        genome = genome_file.split(".")[
+            0]  # Genome name is filename pre-extension.
+        file_path = os.path.join(args.input_dir, genome_file)
+        # Listing out the iterator may not be efficient for larger files.
+        seq_records = list(SeqIO.parse(file_path, "fasta"))
+        for i, _ in enumerate(seq_records):
+            seq_records[i].id = (f"{genome}{shared_vars.GENOME_CONTIG_SEP}"
+                                 f"{seq_records[i].id}")
+            seq_records[i].name = "";
+            seq_records[i].description = ""
+        with open(file_path, "w") as file:
+            SeqIO.write(seq_records, file, "fasta")
+
+
+if __name__ == "__main__":
+    main()
