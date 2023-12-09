@@ -27,13 +27,3 @@ scp -r "$HOST_LAB_DIR/andrew/ragtag_scaffolds" .
 
 # Scp the genome's coding sequences (prokka annotations) as well.
 scp $HOST_LAB_DIR/cornucopia/xa45-wgs-results/annotated-nuc/*.ffn .
-
-#2. gen_primers script into one primers file (possibly doable by command line).
-# note that primer3 outputs reverse primers exactly, but bowtie reverses these
-# for some reason ().
-#3. One bowtie command:
-#bowtie2-build -f ragtag_scaffolds/*.fasta bowtie_idx/all_genomes
-#bowtie2 -f -a -x bowtie_idx/all_genomes -U primers/primers.fasta -S primers/primers.sam
-#4. The final filtering step/script (maybe doable by command line, but if we
-# use samtools, we're relying on something anyway, and it feels better to
-# just use my own script).

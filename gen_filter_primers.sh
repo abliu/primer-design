@@ -3,7 +3,7 @@
 # each genome. Each primer pair is specific to one genome (versus all others).
 # The script chains together scripts for generating primers (gen_primers.py),
 # checking cross-amplifications (bowtie2 commands), and filtering out
-# non-specific primers.
+# non-specific primers (filter_primers.R).
 # Usage: $ ./gen_filter_primers.sh
 
 # Create bowtie2 index of all genomes, which will be used to check primer
