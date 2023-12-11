@@ -1,3 +1,0 @@
-# Biopython (SeqIO and Bio)
-# primer3-py (primer3) and primer3-core
-# bowtie2
