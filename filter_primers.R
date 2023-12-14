@@ -46,6 +46,18 @@ primers_sam2df = function(primer_sam_file) {
 }
 alignments = primers_sam2df(opt$input)
 
+# Probably have 2 options: drop similars or combine into classes. Probably better to combine into classes even though it’s more complicated. 2 optional steps upfront: (a) run ANI to combine into classes, and (b) then specify classes (maybe via directories?).
+# 
+# What to do strains for which I could not find specific primers
+# 
+# Leave them as is; just note which ones they are.
+# I could try to identify which strains they’re grouped with. Find the strains for which none of the primers were specific; find the strains which they’re mapping to and maybe stop there (say “x% of generated primers mapped to this strain too” for x > 50 or something); could go further and check whether the existing primer works; if not, replace it with one of the primers found!
+# OK n-way mappings? Maybe just say that if that x% thing is true for multiple strains from one strain, then look for individual primers that map to all those strains too.
+# Ordering: we do a while loop while set is not empty, with set of strains to operate on.
+# Where does this code live and in what language: I think it just lives in the R part of the code. OK let’s try it!
+# How to store the data: a way that is convenient with the existing code is to add a column with the additional strains one is mapping to, but probably should have an auxiliary file which doesn’t make any particular primer special (might not be very different from specific_primers.csv actually; just move the first column into the list in the new column).
+# How to deal with *pairs*?
+
 # Group alignments into the set of specific primers. Each primer (uniquely
 # identified by primer_id) has 0 or more alignments to each genome (uniquely
 # identified by ref_genome). Only keep primers for which no alignments are
