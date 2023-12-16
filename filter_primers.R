@@ -56,7 +56,10 @@ alignments = primers_sam2df(opt$input)
 # Ordering: we do a while loop while set is not empty, with set of strains to operate on.
 # Where does this code live and in what language: I think it just lives in the R part of the code. OK let’s try it!
 # How to store the data: a way that is convenient with the existing code is to add a column with the additional strains one is mapping to, but probably should have an auxiliary file which doesn’t make any particular primer special (might not be very different from specific_primers.csv actually; just move the first column into the list in the new column).
-# How to deal with *pairs*?
+# How to deal with *pairs*: require the full pair to be shared to consider it for multiple strains. It’s a bit weird because we’re calling a primer pair non-specific if just one of the primers maps to both strains, but we’re requiring both primers to map onto both strains for it to be 
+# There’s an assumption here that alignment implies the primer works on the other strain. I think this is fine. If that’s not true, then the primer is specific! Or it’s indeterminate whether the primer is specific or works on the other strain.
+# Problem is redefined if we follow Mike’s approach to just be specific within a vial. Maybe I’ll ask for clarification for this in my update.
+# TODO: reduce runtime by reducing num primers.
 
 # Group alignments into the set of specific primers. Each primer (uniquely
 # identified by primer_id) has 0 or more alignments to each genome (uniquely
