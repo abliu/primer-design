@@ -16,7 +16,10 @@ export NEW_DIR="$LAB_DIR/andrew/ragtag_scaffolds"
 mkdir -p $NEW_DIR
 cd "$LAB_DIR/amogh/analysis/xa45-redone/ragtag_scaffold"
 for genome in *; do
-  cp "$genome/ragtag.scaffold.fasta" "$NEW_DIR/$genome.ragtag.scaffold.fasta"
+  # Remove sequencing files with pooled genomes.
+  if [$genome != "LIB060784_GEN00271393_151_S151"] && [$genome != "LIB060784_GEN00271394_152_S152"]; then
+    cp "$genome/ragtag.scaffold.fasta" "$NEW_DIR/$genome.ragtag.scaffold.fasta"
+  fi
 done
 
 ## Locally
