@@ -24,7 +24,7 @@ import primer3
 import shared_vars
 
 
-def gen_primers(genome_filename, max_num_primers=1000,
+def gen_primers(genome_filename, max_num_primers=250,
                 contig_max_length=10000000):
     """Generates primers for a single genome.
 
